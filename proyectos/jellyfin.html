@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio de Proyectos</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../proyectos.html">Proyectos</a></li>
+            </ul>
+        </nav>
+        <div id="title"></div>
+    </header>
+    
+    <section id="inicio">
+        <h2>Uriel Mas Project Portfolio</h2>
+    </section>
+
+    <section id="title-project">
+        <h1>Media Server: Jellyfin + OpenMediaVault</h1>
+    </section>
+
+    <section id="intro-project">
+        <p>Este proyecto integra Jellyfin, QBittorrent, Jackett y OpenMediaVault para crear un media server completo y eficiente. Jellyfin permite la transmisión y gestión de contenido multimedia de manera sencilla y accesible, mientras que QBittorrent facilita la descarga de torrents. Jackett amplía la capacidad de búsqueda de contenido, y OpenMediaVault proporciona una plataforma robusta para la gestión del almacenamiento. Juntos, estos componentes ofrecen una solución integral para la organización, acceso y distribución de contenido multimedia, adaptándose a las necesidades de usuarios individuales y familias.</p>
+    </section>
+
+    <section id="desarrollo-project">
+        <h2>Jellyfin</h2>
+        <p>El primer pasó será instalar Jellyfin. Jellyfin es un servidor multimedia de código abierto que organiza y transmite contenido sin costos ni suscripciones.</p>
+        <p>Para instalar Jellyfin, seguiremos la docuemntación oficial: </p>
+        <p></p>
+        <pre><code>curl -s https://repo.jellyfin.org/install-debuntu.sh | sudo bash</code></pre>
+        <p>Una vez ejecutemos el comando nos aparecerán las caracterísitcas de nuestro sistema, si son correctas, pulsamos "Enter":</p>
+        <img src="../img/media-server/media-server1.png">
+        <p>Una vez hecho esto, empezará a instalar el sistema de Jellyfin</p>
+        <p>Una vez acabe, podemos comprobar si el servicio funciona correctamente con: </p>
+        <pre><code>sudo systemctl status jellyfin</code></pre>
+        <p>Por defecto, el servicio web de Jellyfin se ejecuta en el puerto 8096. Accedemos al siguiente paso de configuación de Jellyfin a través del navegador.</p>
+        <p>Cuando acabemos la configuración, ya tendremos Jellyfin disponible:</p>
+        <img src="../img/media-server/media-server2.png">
+        <h2>NFS</h2>
+        <p>Ahora montaremos una carpeta NFS en el servidor de Jellyfin, para añadir nuestras bibliotecas de archivos multimedia a través de nuestra red.</p>
+        <p>Yo tengo servidor NAS y un disco duro específico para esto, he creado una carpeta compartida por red a través de NFS. La montaremos en Linux:</p>
+        <p>Creo una carpeta llamada "media-server" en "/". Esto no es muy recomendable, pero lo haré así ya que los clientes de torrent no se llevan muy bien con las rutas muy extensas.</p>
+        <pre><code>sudo mkdir /media-server</code></pre>
+        <p>Instalaremos el paquete nfs-common para poder pontar carpetas NFS</p>
+        <pre><code>sudo apt install nfs-common</code></pre>
+        <p>Para montar la carpeta NFS automáticamente tendremos que modificar 3 ficheros. Así, cuando se reinicie la máquina, la carpeta se montará ella sola:</p>
+        <p>El primer fichero que tenemos que modificar es "/etc/fstab"</p>
+        <img src="../img/media-server/media-server3.png">
+        <p>El segundo fichero será "/etc/rc.sysinit"</p>
+        <img src="../img/media-server/media-server4.png">
+        <p>Y el tercer fichero: "/etc/rc.local"</p>
+        <img src="../img/media-server/media-server5.png">
+        <p>Una vez configurado esto, podemos reiniciar la máquina y comprobar la que la carpeta se monta automáticamente. Ya habríamos acabado de configurar el NAS en nuestra máquina</p>
+
+        <h2>Añadir nuestras carpetas NFS a Jellyfin: </h2>
+        <p>Para añadir una carpeta a Jellyfin, solo tendremos que iniciar sesión y lo primero que nos aparecerá será esto:</p>
+        <img src="../img/media-server/media-server6.png">
+        <p>Pulsaremos en "¿Quieres crear una ahora?"</p>
+        <p>Nos redirigirá a la configuración de de bibliotecas, pulsamos en añadir bibloteca de medios</p>
+        <img src="../img/media-server/media-server7.png">
+        <p>Y configuraré la biblioteca como películas: </p>
+        <img src="../img/media-server/media-server8.png">
+    </section>
+
+    <section id="vermas">
+        <a href="../proyectos.html">Ver más proyectos</a>
+        
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Uriel Mas</p>
+    </footer>
+</body>
+</html>
